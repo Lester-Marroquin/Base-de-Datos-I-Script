@@ -211,3 +211,5 @@ SELECT SQC_MOV_INVENTARIO.NEXTVAL FROM DUAL
 
 
 Select * From MOV_INVENTARIO;
+
+--Script de Base de Datos I
