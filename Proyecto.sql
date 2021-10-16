@@ -216,3 +216,5 @@ Select * From MOV_INVENTARIO;
 ------prueba ---script------
 
 --Lester Marroquin
+
+-----prueba 2 christian----
