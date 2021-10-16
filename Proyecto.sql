@@ -212,4 +212,5 @@ SELECT SQC_MOV_INVENTARIO.NEXTVAL FROM DUAL
 
 Select * From MOV_INVENTARIO;
 
---Script de Proyecto
+--Script de Proyecto-----
+------prueba ---script------
