@@ -1,0 +1,174 @@
+create table ttipo_persona(
+	id_tipo_persona number(10) CONSTRAINT PK_id_per PRIMARY KEY IDENTITY,
+    txt_tipo_persona varchar2(300),
+    estado number(1)
+);
+#-----------------------------------------------------
+create table tpersona(
+	id_persona number(10) CONSTRAINT PK_id_persona PRIMARY KEY IDENTITY,
+    txt_nombres varchar2(300),
+    txt_apellidos varchar2(300),
+    telefono_casa varchar2(30),
+    telefono_movil varchar2(30),
+    nit varchar2(20),
+    cui varchar2(30),
+    fecha_creado date,
+    id_tipo_persona number(10),
+    estado number(1),
+    foreign key(id_tipo_persona) references ttipo_persona(id_tipo_persona)
+);
+#---------------------------------------------------------------------------
+create table tusuario(
+	id_usuario number(10) CONSTRAINT PK_id_persona PRIMARY KEY IDENTITY,
+    txt_usuario varchar2(200),
+    txt_hash varchar2(300),
+    txt_salt varchar2(300),
+    fecha_creado date,
+    id_persona number(10),
+    estado number(1),
+    foreign key(id_usuario) references tpersona(id_persona)
+);
+#-----------------------------------------------------------------------------
+create table tpais(
+	id_pais number(10) CONSTRAINT PK_id_pais PRIMARY KEY IDENTITY,
+    txt_pais varchar2(300),
+    estado number(1)
+);
+#-----------------------------------------------------------------------------
+create table tmunicipio(
+	id_municipio number(10) CONSTRAINT PK_id_municipio PRIMARY KEY IDENTITY,
+    txt_municipio varchar2(300),
+    id_pais number(10),
+    estado number(1),
+    foreign key(id_pais) references tpais(id_pais)
+);
+#-----------------------------------------------------------------------------
+create table tcabecera(
+	id_cabecera number(10) CONSTRAINT PK_id_cabe PRIMARY KEY IDENTITY,
+    txt_cabecera varchar2(300),
+    id_municipio number(10),
+    estado number(1),
+    foreign key(id_municipio) references tmunicipio(id_municipio)
+);
+#-----------------------------------------------------------------------------
+create table tsucursal(
+	id_sucursarl number(10) CONSTRAINT PK_suc PRIMARY KEY IDENTITY,
+    txt_sucursal varchar(300),
+    id_cabecera number(10),
+    fecha_creado date,
+    estado number(1),
+    foreign key(id_cabecera) references tcabecera(id_cabecera)
+);
+#-----------------------------------------------------------------------------
+create table tbodega(
+	id_bodega number(10) CONSTRAINT PK_id_bodega PRIMARY KEY IDENTITY,
+    txt_bodega varchar2(300),
+    id_sucursarl number(10),
+    estado number(1),
+    foreign key(id_sucursarl) references tsucursal(id_sucursarl)
+);
+#------------------------------------------------------------------------------
+create table tproveedor(
+	id_proveedor number(10) CONSTRAINT PK_id_prove PRIMARY KEY IDENTITY,
+    cod_proveedor varchar2(100),
+    txt_proveedor varchar2(300),
+    txt_nit varchar2(30),
+    txt_telefono varchar2(30),
+    txt_direccion varchar2(200),
+    estado number(1)
+);
+#------------------------------------------------------------------------------
+create table ttipo_prod(
+	id_tipo_prod number(10) CONSTRAINT PK_id_tipop PRIMARY KEY IDENTITY,
+    txt_tipo_prod varchar(300),
+    estado number(1)
+);
+#------------------------------------------------------------------------------
+create table tmarca(
+	id_marca number(10) CONSTRAINT PK_id_marca PRIMARY KEY IDENTITY,
+    txt_marca varchar(300),
+    estado number(1)
+);
+#------------------------------------------------------------------------------
+create table tproducto(
+	id_producto number(10) CONSTRAINT PK_id_prod PRIMARY KEY IDENTITY,
+    descripcion varchar2(300),
+    id_tipo_prod number(10),
+    cod_prod varchar2(100),
+    id_marca number(10),
+    id_proveedor number(10),
+    estado number(1),
+    foreign key(id_tipo_prod) references tsucursal(id_tipo_prod),
+    foreign key(id_marca) references tsucursal(id_marca),
+    foreign key(id_proveedor) references tsucursal(id_proveedor)
+);
+#------------------------------------------------------------------------------
+create table ttipo_movimiento(
+	id_tipo_movi number(10) CONSTRAINT PK_id_tipom PRIMARY KEY IDENTITY,
+    txt_tipo_movi varchar2(300),
+    estado number(1)
+);
+#------------------------------------------------------------------------------
+create table tinventario(
+	id_inventario number(10) CONSTRAINT PK_id_inven PRIMARY KEY IDENTITY,
+    id_producto number(10),
+    id_tipo_movi number(10),
+    cantidad number(8,2),
+    fecha_movi date,
+    observaciones varchar2(500), 
+    id_bodega number(10),
+    id_usuario number(10),
+    estado number(1),
+    foreign key(id_producto) references tproducto(id_producto),
+    foreign key(id_tipo_movi) references ttipo_movimiento(id_tipo_movi),
+    foreign key(id_bodega) references tbodega(id_bodega),
+    foreign key(id_usuario) references tusuario(id_usuario)
+);
+#---------------------------------------------------------------------------------
+create table tserie_doc(
+	id_serie_doc number(10) CONSTRAINT PK_id_serie PRIMARY KEY IDENTITY,
+	txt_serie varchar2(100),
+    estado number(1)
+);
+#---------------------------------------------------------------------------------
+create table ttipo_doc(
+	id_tipo_doc number(10) CONSTRAINT PK_id_tipodoc PRIMARY KEY IDENTITY,
+    txt_tipo_doc varchar2(300),
+    estado number(1)
+);
+#----------------------------------------------------------------------------------
+create table tfacturacion(
+	id_factura number(10) CONSTRAINT PK_id_fac PRIMARY KEY IDENTITY,
+    id_serie_doc number(10),
+    no_documento varchar(200),
+    fecha_documento date,
+    id_cliente number(10),
+    total_documento number(8,2),
+    fecha_creado date,
+    estado number(1),
+    id_tipo_doc number(10),
+    total_letras varchar2(400),
+    foreign key(id_serie_doc) references tserie_doc(id_serie_doc),
+    foreign key(id_persona) references tpersona(id_persona),
+    foreign key(id_tipo_doc) references ttipo_doc(id_tipo_doc)    
+);
+#--------------------------------------------------------------------------
+create table tfactura_detalle(
+	id_detalle_factura number(10) CONSTRAINT PK_id_fac PRIMARY KEY IDENTITY,
+    id_factura number(10),
+    fecha_creado date,
+    id_producto number(10),
+    cnt_producto number(8,2),
+    p_costo number(8,2),
+    subtotal_costo number(8,2),
+    iva number(8,2),
+    p_venta number(8,2),
+    sub_total_venta number(8,2),
+    foreign key(id_factura) references tfacturacion(id_factura),
+	foreign key(id_producto) references tproducto(id_producto),
+);
+#-------------------------------------------------------------------
+
+Plinio Astudillo Prueba.
+
+
