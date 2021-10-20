@@ -67,13 +67,13 @@ CACHE 20;
 /*==============================================================*/
 /* Table: CATEGORIA_LUBRICANTES                                 */
 /*==============================================================*/
-create table CATEGORIA_LUBRICANTES (
+create table CATEGORIA_LUBRICANTE (
    COD_LUBRICANTE       NUMBER(3)             not null,
    LUBRICANTE           varchar2(200)         not null,
    constraint PK_CATEGORIA_LUBRICANTES primary key (COD_LUBRICANTE)
 );
 
-CREATE SEQUENCE SQC_CATEGORIA_LUBRICANTES
+CREATE SEQUENCE SQC_CATEGORIA_LUBRICANTE
 START WITH 1
 MINVALUE 1
 NOMAXVALUE
@@ -418,7 +418,7 @@ alter table INVENTARIO
 
 alter table INVENTARIO
    add constraint FK_INVENTAR_CATEGORI foreign key (COD_LUBRICANTE)
-      references CATEGORIA_LUBRICANTES (COD_LUBRICANTE);
+      references CATEGORIA_LUBRICANTE (COD_LUBRICANTE);
 
 alter table INVENTARIO
    add constraint FK_INVENTAR_SUCURSAL foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL)
@@ -448,3 +448,12 @@ alter table TELEFONO
 /*==============================================================*/
 /* Insercion de datos manual                                    */
 /*==============================================================*/
+
+
+insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'Super');
+insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'Regular');
+insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'Diesel');
+insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'V-Power');
+
+--insert into CATEGORIA_LUBRICANTE (COD_LUBRICANTE, LUBRICANTE) values (SQC_CATEGORIA_LUBRICANTE.Nextval, '');
+
