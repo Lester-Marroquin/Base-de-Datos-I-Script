@@ -10,6 +10,13 @@ create table ANUNCIO (
    constraint PK_ANUNCIO primary key (COD_ANUNCIO)
 );
 
+CREATE SEQUENCE SQC_ANUNCIO
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
+
 /*==============================================================*/
 /* Table: ASIGNAR_ROL                                           */
 /*==============================================================*/
@@ -21,6 +28,13 @@ create table ASIGNAR_ROL (
    COD_EMPLEADO         NUMBER(10)            not null,
    constraint PK_ASIGNAR_ROL primary key (COD_ROL, COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
 );
+
+CREATE SEQUENCE SQC_ROL
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
 
 /*==============================================================*/
 /* Table: ASIGNAR_TURNO                                         */
@@ -43,6 +57,13 @@ create table CATEGORIA_COMBUSTIBLE (
    constraint PK_CATEGORIA_COMBUSTIBLE primary key (COD_COMBUSTIBLE)
 );
 
+CREATE SEQUENCE SQC_CATEGORIA_COMBUSTIBLE
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
+
 /*==============================================================*/
 /* Table: CATEGORIA_LUBRICANTES                                 */
 /*==============================================================*/
@@ -51,6 +72,13 @@ create table CATEGORIA_LUBRICANTES (
    LUBRICANTE           varchar2(200)         not null,
    constraint PK_CATEGORIA_LUBRICANTES primary key (COD_LUBRICANTE)
 );
+
+CREATE SEQUENCE SQC_CATEGORIA_LUBRICANTES
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
 
 /*==============================================================*/
 /* Table: CLIENTE                                               */
@@ -61,6 +89,13 @@ create table CLIENTE (
    constraint PK_CLIENTE primary key (COD_CLIENTE)
 );
 
+CREATE SEQUENCE SQC_CLIENTE
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
+
 /*==============================================================*/
 /* Table: DEPARTAMENTO                                          */
 /*==============================================================*/
@@ -69,6 +104,13 @@ create table DEPARTAMENTO (
    DEPARTAMENTO         Varchar2(100)         not null,
    constraint PK_DEPARTAMENTO primary key (COD_DEPARTAMENTO)
 );
+
+CREATE SEQUENCE SQC_DEPARTAMENTO
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
 
 /*==============================================================*/
 /* Table: DETALLE_FACTURA                                       */
@@ -109,6 +151,13 @@ create table EMPLEADO (
    constraint PK_EMPLEADO primary key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
 );
 
+CREATE SEQUENCE SQC_EMPLEADO
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
+
 /*==============================================================*/
 /* Table: ESTADO                                                */
 /*==============================================================*/
@@ -117,6 +166,13 @@ create table ESTADO (
    ESTADO               varchar2(50)          not null,
    constraint PK_ESTADO primary key (COD_ESTADO)
 );
+
+CREATE SEQUENCE SQC_ESTADO
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
 
 /*==============================================================*/
 /* Table: FACTURA                                               */
@@ -133,6 +189,13 @@ create table FACTURA (
    constraint PK_FACTURA primary key (NO_FACTURA, SERIE)
 );
 
+CREATE SEQUENCE SQC_FACTURA
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
+
 /*==============================================================*/
 /* Table: GENERO                                                */
 /*==============================================================*/
@@ -141,6 +204,13 @@ create table GENERO (
    GENERO               varchar2(15)          not null,
    constraint PK_GENERO primary key (COD_GENERO)
 );
+
+CREATE SEQUENCE SQC_GENERO
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
 
 /*==============================================================*/
 /* Table: INVENTARIO                                            */
@@ -168,6 +238,13 @@ create table MUNICIPIO (
    constraint PK_MUNICIPIO primary key (COD_DEPARTAMENTO, COD_MUNICIPIO)
 );
 
+CREATE SEQUENCE SQC_MUNICIPIO
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
+
 /*==============================================================*/
 /* Table: PERSONA                                               */
 /*==============================================================*/
@@ -184,6 +261,13 @@ create table PERSONA (
    constraint PK_PERSONA primary key (COD_PERSONA)
 );
 
+CREATE SEQUENCE SQC_PERSONA
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
+
 /*==============================================================*/
 /* Table: ROL                                                   */
 /*==============================================================*/
@@ -193,6 +277,13 @@ create table ROL (
    constraint PK_ROL primary key (COD_ROL)
 );
 
+CREATE SEQUENCE SQC_ROL
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
+
 /*==============================================================*/
 /* Table: SEXO                                                  */
 /*==============================================================*/
@@ -201,6 +292,13 @@ create table SEXO (
    SEXO                 varchar2(100)         not null,
    constraint PK_SEXO primary key (COD_SEXO)
 );
+
+CREATE SEQUENCE SQC_SEXO
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
 
 /*==============================================================*/
 /* Table: SUCURSAL                                              */
@@ -212,6 +310,13 @@ create table SUCURSAL (
    COD_DEPARTAMENTO     NUMBER(3)             not null,
    constraint PK_SUCURSAL primary key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL)
 );
+
+CREATE SEQUENCE SQC_SUCURSAL
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
 
 /*==============================================================*/
 /* Table: TELEFONO                                              */
@@ -231,6 +336,13 @@ create table TURNO (
    constraint PK_TURNO primary key (COD_TURNO)
 );
 
+CREATE SEQUENCE SQC_TURNO
+START WITH 1
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1
+CACHE 20;
+
 /*==============================================================*/
 /* Table: UNIDAD_MEDIDA                                         */
 /*==============================================================*/
@@ -240,98 +352,101 @@ create table UNIDAD_MEDIDA (
    constraint PK_UNIDAD_MEDIDA primary key (COD_UNIDAD_MEDIDA)
 );
 
+/*==============================================================*/
+/* ALTER en tablas                                              */
+/*==============================================================*/
+
 alter table ASIGNAR_ROL
-   add constraint FK_ASIGNAR__RELATIONS_EMPLEADO foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
+   add constraint FK_ASIGNAR_EMPLEADO foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
       references EMPLEADO (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO);
 
 alter table ASIGNAR_ROL
-   add constraint FK_ASIGNAR__RELATIONS_ROL foreign key (COD_ROL)
+   add constraint FK_ASIGNAR_ROL foreign key (COD_ROL)
       references ROL (COD_ROL);
 
 alter table ASIGNAR_TURNO
-   add constraint FK_ASIGNAR__RELATIONS_EMPLEADO foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
+   add constraint FK_ASIGNAR_EMPLEADO foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
       references EMPLEADO (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO);
 
 alter table ASIGNAR_TURNO
-   add constraint FK_ASIGNAR__RELATIONS_TURNO foreign key (COD_TURNO)
+   add constraint FK_ASIGNAR_TURNO foreign key (COD_TURNO)
       references TURNO (COD_TURNO);
 
 alter table CLIENTE
-   add constraint FK_CLIENTE_RELATIONS_PERSONA foreign key (COD_PERSONA)
+   add constraint FK_CLIENTE_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
 
 alter table DETALLE_FACTURA
-   add constraint FK_DETALLE__RELATIONS_FACTURA foreign key (NO_FACTURA, SERIE)
+   add constraint FK_DETALLE_FACTURA foreign key (NO_FACTURA, SERIE)
       references FACTURA (NO_FACTURA, SERIE);
 
 alter table DETALLE_FACTURA
-   add constraint FK_DETALLE__RELATIONS_INVENTAR foreign key (COD_LUBRICANTE, COD_UNIDAD_MEDIDA, COD_COMBUSTIBLE, COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL)
+   add constraint FK_DETALLE_INVENTAR foreign key (COD_LUBRICANTE, COD_UNIDAD_MEDIDA, COD_COMBUSTIBLE, COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL)
       references INVENTARIO (COD_LUBRICANTE, COD_UNIDAD_MEDIDA, COD_COMBUSTIBLE, COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL);
 
 alter table DIRECCION
-   add constraint FK_DIRECCIO_RELATIONS_PERSONA foreign key (COD_PERSONA)
+   add constraint FK_DIRECCIO_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
 
 alter table EMPLEADO
-   add constraint FK_EMPLEADO_RELATIONS_SUCURSAL foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL)
+   add constraint FK_EMPLEADO_SUCURSAL foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL)
       references SUCURSAL (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL);
 
 alter table EMPLEADO
-   add constraint FK_EMPLEADO_RELATIONS_PERSONA foreign key (COD_PERSONA)
+   add constraint FK_EMPLEADO_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
 
 alter table FACTURA
-   add constraint FK_FACTURA_RELATIONS_CLIENTE foreign key (COD_CLIENTE)
+   add constraint FK_FACTURA_CLIENTE foreign key (COD_CLIENTE)
       references CLIENTE (COD_CLIENTE);
 
 alter table FACTURA
-   add constraint FK_FACTURA_RELATIONS_EMPLEADO foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
+   add constraint FK_FACTURA_EMPLEADO foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
       references EMPLEADO (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_RELATIONS_ESTADO foreign key (COD_ESTADO)
+   add constraint FK_INVENTAR_ESTADO foreign key (COD_ESTADO)
       references ESTADO (COD_ESTADO);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_RELATIONS_CATEGORI foreign key (COD_COMBUSTIBLE)
+   add constraint FK_INVENTAR_CATEGORI foreign key (COD_COMBUSTIBLE)
       references CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_RELATIONS_UNIDAD_M foreign key (COD_UNIDAD_MEDIDA)
+   add constraint FK_INVENTAR_UNIDAD_M foreign key (COD_UNIDAD_MEDIDA)
       references UNIDAD_MEDIDA (COD_UNIDAD_MEDIDA);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_RELATIONS_CATEGORI foreign key (COD_LUBRICANTE)
+   add constraint FK_INVENTAR_CATEGORI foreign key (COD_LUBRICANTE)
       references CATEGORIA_LUBRICANTES (COD_LUBRICANTE);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_RELATIONS_SUCURSAL foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL)
+   add constraint FK_INVENTAR_SUCURSAL foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL)
       references SUCURSAL (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL);
 
 alter table MUNICIPIO
-   add constraint FK_MUNICIPI_RELATIONS_DEPARTAM foreign key (COD_DEPARTAMENTO)
+   add constraint FK_MUNICIPI_DEPARTAM foreign key (COD_DEPARTAMENTO)
       references DEPARTAMENTO (COD_DEPARTAMENTO);
 
 alter table PERSONA
-   add constraint FK_PERSONA_RELATIONS_SEXO foreign key (COD_SEXO)
+   add constraint FK_PERSONA_SEXO foreign key (COD_SEXO)
       references SEXO (COD_SEXO);
 
 alter table PERSONA
-   add constraint FK_PERSONA_RELATIONS_GENERO foreign key (COD_GENERO)
+   add constraint FK_PERSONA_GENERO foreign key (COD_GENERO)
       references GENERO (COD_GENERO);
 
 alter table SUCURSAL
-   add constraint FK_SUCURSAL_RELATIONS_MUNICIPI foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO)
+   add constraint FK_SUCURSAL_MUNICIPI foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO)
       references MUNICIPIO (COD_DEPARTAMENTO, COD_MUNICIPIO);
 
 alter table TELEFONO
-   add constraint FK_TELEFONO_RELATIONS_PERSONA foreign key (COD_PERSONA)
+   add constraint FK_TELEFONO_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
 
-CREATE SEQUENCE SQC_MOV_INVENTARIO
-START WITH 1
-MINVALUE 1
-NOMAXVALUE
-INCREMENT BY 1
-CACHE 20;
+
+/*==============================================================*/
+/* Insercion de datos manual                                    */
+/*==============================================================*/
+
 
