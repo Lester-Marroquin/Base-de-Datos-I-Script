@@ -68,7 +68,7 @@ create table DEPARTAMENTO (
 /* Table: DETALLE_FACTURA                                       */
 /*==============================================================*/
 create table DETALLE_FACTURA (
-   NO_FACTURA           NUMBER(99)            not null,
+   NO_FACTURA           NUMBER(10)            not null,
    SERIE                varchar2(50)          not null,
    COD_LUBRICANTE       NUMBER(3)             not null,
    COD_UNIDAD_MEDIDA    NUMBER(3)             not null,
@@ -112,7 +112,7 @@ create table ESTADO (
 /* Table: FACTURA                                               */
 /*==============================================================*/
 create table FACTURA (
-   NO_FACTURA           NUMBER(99)            not null,
+   NO_FACTURA           NUMBER(10)            not null,
    SERIE                varchar2(50)          not null,
    COD_CLIENTE          NUMBER(15)            not null,
    COD_EMPLEADO         NUMBER(10)            not null,
@@ -233,10 +233,6 @@ alter table ASIGNAR_ROL
       references ROL (COD_ROL);
 
 alter table ASIGNAR_TURNO
-   add constraint FK_ASIGNAR_EMPLEADO foreign key (COD_EMPLEADO)
-      references EMPLEADO (COD_EMPLEADO);
-
-alter table ASIGNAR_TURNO
    add constraint FK_ASIGNAR_TURNO foreign key (COD_TURNO)
       references TURNO (COD_TURNO);
 
@@ -287,10 +283,6 @@ alter table INVENTARIO
 alter table INVENTARIO
    add constraint FK_INVENTARUNIDAD_M foreign key (COD_UNIDAD_MEDIDA)
       references UNIDAD_MEDIDA (COD_UNIDAD_MEDIDA);
-
-alter table INVENTARIO
-   add constraint FK_INVENTARCATEGORI foreign key (COD_LUBRICANTE)
-      references CATEGORIA_LUBRICANTE (COD_LUBRICANTE);
 
 alter table INVENTARIO
    add constraint FK_INVENTARSUCURSAL foreign key (COD_SUCURSAL)
