@@ -358,7 +358,7 @@ alter table ASIGNAR_ROL
       references ROL (COD_ROL);
 
 alter table ASIGNAR_TURNO
-   add constraint FK_ASIGNAR_EMPLEADO foreign key (COD_EMPLEADO)
+   add constraint FK_ASIGNAR_EMPLEADO_TURNO foreign key (COD_EMPLEADO)
       references EMPLEADO (COD_EMPLEADO);
 
 alter table ASIGNAR_TURNO
@@ -402,7 +402,7 @@ alter table INVENTARIO
       references ESTADO (COD_ESTADO);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_CATEGORI foreign key (COD_COMBUSTIBLE)
+   add constraint FK_INVENTAR_CATEGORI_COMBUSTIBLE foreign key (COD_COMBUSTIBLE)
       references CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE);
 
 alter table INVENTARIO
@@ -410,7 +410,7 @@ alter table INVENTARIO
       references UNIDAD_MEDIDA (COD_UNIDAD_MEDIDA);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_CATEGORI foreign key (COD_LUBRICANTE)
+   add constraint FK_INVENTAR_CATEGORI_LUBRICANTE foreign key (COD_LUBRICANTE)
       references CATEGORIA_LUBRICANTE (COD_LUBRICANTE);
 
 alter table INVENTARIO
