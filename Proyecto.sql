@@ -128,7 +128,7 @@ create table EMPLEADO (
    COD_SUCURSAL         NUMBER(3)             not null,
    FECHA_INGRESO        DATE                  not null,
    COD_EMP_EMPLEADO     NUMBER(10),
-   constraint PK_EMPLEADO primary key (COD_EMPLEADO)
+   constraint PK_EMPLEADO primary key (COD_EMPLEADO) Enable
 );
 
 Create Sequence SQC_EMPLEADO
@@ -325,6 +325,21 @@ create table UNIDAD_MEDIDA (
    constraint PK_UNIDAD_MEDIDA primary key (COD_UNIDAD_MEDIDA)
 );
 
+Create Sequence SQC_UNIDAD_MEDIDA
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
+
+/*==============================================================*/
+/* ALTERS:                                                      */
+/*==============================================================*/
+
+alter table EMPLEADO
+   add constraint FK_EMPLEADO_EMPLEADO foreign key (COD_EMP_EMPLEADO)
+      references EMPLEADO (COD_EMPLEADO) Enable; 
+
 alter table ASIGNAR_ROL
    add constraint FK_ASIGNAR_EMPLEADO foreign key (COD_EMPLEADO)
       references EMPLEADO (COD_EMPLEADO);
@@ -412,6 +427,9 @@ alter table SUCURSAL
 alter table TELEFONO
    add constraint FK_TELEFONO_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
+   
+
+
 /*==============================================================*/
 /* Insercion de datos manual                                    */
 /*==============================================================*/
@@ -425,5 +443,3 @@ insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CAT
 --insert into CATEGORIA_LUBRICANTE (COD_LUBRICANTE, LUBRICANTE) values (SQC_CATEGORIA_LUBRICANTE.Nextval, '');
 
 insert into ANUNCIO (COD_ANUNCIO, ANUNCIO, FECHA_INICIO, FECHA_FIN) values (SQC_ANUNCIO.Nextval, 'Primer anuncio de proyecto', Sysdate, to_date ('01-01-2021','dd-mm-yy'));
-
-select * from anuncio;
