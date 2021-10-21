@@ -105,9 +105,7 @@ Cache 20;
 create table DETALLE_FACTURA (
    COD_DETALLE          NUMBER(15)            not null,
    NO_FACTURA           NUMBER(15)            not null,
-   COD_LUBRICANTE       NUMBER(3),
-   COD_UNIDAD_MEDIDA    NUMBER(3)             not null,
-   COD_COMBUSTIBLE      NUMBER(3),
+   COD_INVENTARIO       NUMBER(15)            not null,
    CANTIDAD             NUMBER(10)            not null,
    PRECIO               NUMBER(10,2)          not null,
    constraint PK_DETALLE_FACTURA primary key (COD_DETALLE)
@@ -202,14 +200,15 @@ Cache 20;
 /* Table: INVENTARIO                                            */
 /*==============================================================*/
 create table INVENTARIO (
-   COD_LUBRICANTE       NUMBER(3)             not null,
+   COD_INVENTARIO       NUMBER(15)            not null,
+   COD_LUBRICANTE       NUMBER(3),
    COD_UNIDAD_MEDIDA    NUMBER(3)             not null,
-   COD_COMBUSTIBLE      NUMBER(3)             not null,
+   COD_COMBUSTIBLE      NUMBER(3),
    COD_SUCURSAL         NUMBER(3)             not null,
    COD_ESTADO           NUMBER(1)             not null,
    CANTIDAD             NUMBER(5,2)           not null,
    PRECIO               NUMBER(6,2)           not null,
-   constraint PK_INVENTARIO primary key (COD_LUBRICANTE, COD_UNIDAD_MEDIDA, COD_COMBUSTIBLE)
+   constraint PK_INVENTARIO primary key (COD_INVENTARIO)
 );
 
 /*==============================================================*/
@@ -217,8 +216,9 @@ create table INVENTARIO (
 /*==============================================================*/
 create table MUNICIPIO (
    COD_MUNICIPIO        NUMBER(3)             not null,
-   DEPARTAMENTO         varchar2(100)         not null,
-   constraint PK_MUNICIPIO primary key (COD_MUNICIPIO)
+   COD_DEPARTAMENTO     NUMBER(3)             not null,
+   MUNICIPIO            varchar2(100)         not null,
+   constraint PK_MUNICIPIO primary key (COD_MUNICIPIO, COD_DEPARTAMENTO)
 );
 
 Create Sequence SQC_MUNICIPIO
@@ -233,6 +233,7 @@ Cache 20;
 /*==============================================================*/
 create table PERSONA (
    COD_PERSONA          NUMBER(15)            not null,
+   COD_IDENTIFICACION   NUMBER(3)             not null,
    COD_SEXO             NUMBER(3)             not null,
    COD_GENERO           NUMBER(1)             not null,
    NOMBRE_1             varchar2(75)          not null,
@@ -310,6 +311,15 @@ create table TELEFONO (
 );
 
 /*==============================================================*/
+/* Table: TIPO_IDENTIFICACION                                   */
+/*==============================================================*/
+create table TIPO_IDENTIFICACION (
+   COD_IDENTIFICACION   NUMBER(3)             not null,
+   TIPO_IDENTIFICACION  varchar2(100)         not null,
+   constraint PK_TIPO_IDENTIFICACION primary key (COD_IDENTIFICACION)
+);
+
+/*==============================================================*/
 /* Table: TURNO                                                 */
 /*==============================================================*/
 create table TURNO (
@@ -350,7 +360,7 @@ alter table EMPLEADO
       references EMPLEADO (COD_EMPLEADO) Enable; 
 
 alter table ASIGNAR_ROL
-   add constraint FK_ASIGNAR_EMPLEADO foreign key (COD_EMPLEADO)
+   add constraint FK_ASIGNAR_ROL_EMPLEADO foreign key (COD_EMPLEADO)
       references EMPLEADO (COD_EMPLEADO);
 
 alter table ASIGNAR_ROL
@@ -358,7 +368,7 @@ alter table ASIGNAR_ROL
       references ROL (COD_ROL);
 
 alter table ASIGNAR_TURNO
-   add constraint FK_ASIGNAR_EMPLEADO_TURNO foreign key (COD_EMPLEADO)
+   add constraint FK_ASIGNAR_TURNO_EMPLEADO foreign key (COD_EMPLEADO)
       references EMPLEADO (COD_EMPLEADO);
 
 alter table ASIGNAR_TURNO
@@ -374,11 +384,11 @@ alter table DETALLE_FACTURA
       references FACTURA (NO_FACTURA);
 
 alter table DETALLE_FACTURA
-   add constraint FK_DETALLE_INVENTAR foreign key (COD_LUBRICANTE, COD_UNIDAD_MEDIDA, COD_COMBUSTIBLE)
-      references INVENTARIO (COD_LUBRICANTE, COD_UNIDAD_MEDIDA, COD_COMBUSTIBLE);
+   add constraint FK_DETALLE_INVENTARIO foreign key (COD_INVENTARIO)
+      references INVENTARIO (COD_INVENTARIO);
 
 alter table DIRECCION
-   add constraint FK_DIRECCIO_PERSONA foreign key (COD_PERSONA)
+   add constraint FK_DIRECCION_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
 
 alter table EMPLEADO
@@ -398,24 +408,32 @@ alter table FACTURA
       references EMPLEADO (COD_EMPLEADO);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_ESTADO foreign key (COD_ESTADO)
+   add constraint FK_INVENTARIO_ESTADO foreign key (COD_ESTADO)
       references ESTADO (COD_ESTADO);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_CATEGORI_COMBUSTIBLE foreign key (COD_COMBUSTIBLE)
+   add constraint FK_INVENTARIO_CATEGORIA_COMBUSTIBLE foreign key (COD_COMBUSTIBLE)
       references CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_UNIDAD_M foreign key (COD_UNIDAD_MEDIDA)
+   add constraint FK_INVENTARIO_UNIDAD_MEDIDA foreign key (COD_UNIDAD_MEDIDA)
       references UNIDAD_MEDIDA (COD_UNIDAD_MEDIDA);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_CATEGORI_LUBRICANTE foreign key (COD_LUBRICANTE)
+   add constraint FK_INVENTARIO_CATEGORIA_LUBRICANTE foreign key (COD_LUBRICANTE)
       references CATEGORIA_LUBRICANTE (COD_LUBRICANTE);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_SUCURSAL foreign key (COD_SUCURSAL)
+   add constraint FK_INVENTARIO_SUCURSAL foreign key (COD_SUCURSAL)
       references SUCURSAL (COD_SUCURSAL);
+
+alter table MUNICIPIO
+   add constraint FK_MUNICIPIO_DEPARTAMENTO foreign key (COD_DEPARTAMENTO)
+      references DEPARTAMENTO (COD_DEPARTAMENTO);
+
+alter table PERSONA
+   add constraint FK_PERSONA_TIPO_IDENTIFICACION foreign key (COD_IDENTIFICACION)
+      references TIPO_IDENTIFICACION (COD_IDENTIFICACION);
 
 alter table PERSONA
    add constraint FK_PERSONA_SEXO foreign key (COD_SEXO)
@@ -426,22 +444,41 @@ alter table PERSONA
       references GENERO (COD_GENERO);
 
 alter table SUCURSAL
-   add constraint FK_SUCURSAL_MUNICIPI foreign key (COD_MUNICIPIO)
-      references MUNICIPIO (COD_MUNICIPIO);
-
-alter table SUCURSAL
-   add constraint FK_SUCURSAL_DEPARTAM foreign key (COD_DEPARTAMENTO)
-      references DEPARTAMENTO (COD_DEPARTAMENTO);
+   add constraint FK_SUCURSAL_MUNICIPIO foreign key (COD_MUNICIPIO, COD_DEPARTAMENTO)
+      references MUNICIPIO (COD_MUNICIPIO, COD_DEPARTAMENTO);
 
 alter table TELEFONO
    add constraint FK_TELEFONO_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
    
 
-
 /*==============================================================*/
 /* Insercion de datos manual                                    */
 /*==============================================================*/
+
+
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Alta Verapaz');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Baja Verapaz');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Chimaltenango');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Chiquimula');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'El Progreso');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Escuintla');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Guatemala');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Huehuetenango');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Izabal');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Jalapa');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Jutiapa');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Petén');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Quetzaltenango');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Retalhuleu');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Sacatepéquez');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'San Marcos');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Santa Marcos');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Santa Rosa');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Sololá');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Suchitepéquez');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Totonicapán');
+insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Zacapa');
 
 
 insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'Super');
@@ -449,6 +486,8 @@ insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CAT
 insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'Diesel');
 insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'V-Power');
 
+
 --insert into CATEGORIA_LUBRICANTE (COD_LUBRICANTE, LUBRICANTE) values (SQC_CATEGORIA_LUBRICANTE.Nextval, '');
+
 
 insert into ANUNCIO (COD_ANUNCIO, ANUNCIO, FECHA_INICIO, FECHA_FIN) values (SQC_ANUNCIO.Nextval, 'Primer anuncio de proyecto', Sysdate, to_date ('01-01-2021','dd-mm-yy'));
