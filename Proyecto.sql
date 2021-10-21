@@ -88,7 +88,7 @@ Cache 20;
 /*==============================================================*/
 create table DEPARTAMENTO (
    COD_DEPARTAMENTO     NUMBER(3)             not null,
-   DEPARTAMENTO         varchar2(100          not null,
+   DEPARTAMENTO         varchar2(100)         not null,
    constraint PK_DEPARTAMENTO primary key (COD_DEPARTAMENTO)
 );
 
@@ -103,13 +103,22 @@ Cache 20;
 /* Table: DETALLE_FACTURA                                       */
 /*==============================================================*/
 create table DETALLE_FACTURA (
-   NO_FACTURA           NUMBER(99)            not null,
+   COD_DETALLE          NUMBER(15)            not null,
+   NO_FACTURA           NUMBER(15)            not null,
    COD_LUBRICANTE       NUMBER(3),
    COD_UNIDAD_MEDIDA    NUMBER(3)             not null,
    COD_COMBUSTIBLE      NUMBER(3),
    CANTIDAD             NUMBER(10)            not null,
-   PRECIO               NUMBER(10,2)          not null
+   PRECIO               NUMBER(10,2)          not null,
+   constraint PK_DETALLE_FACTURA primary key (COD_DETALLE)
 );
+
+Create Sequence SQC_DETALLE_FACTURA
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
 
 /*==============================================================*/
 /* Table: DIRECCION                                             */
@@ -158,7 +167,7 @@ Cache 20;
 /* Table: FACTURA                                               */
 /*==============================================================*/
 create table FACTURA (
-   NO_FACTURA           NUMBER(99)            not null,
+   NO_FACTURA           NUMBER(15)            not null,
    SERIE                varchar2(50)          not null,
    COD_CLIENTE          NUMBER(15)            not null,
    COD_EMPLEADO         NUMBER(10)            not null,
