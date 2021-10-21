@@ -29,7 +29,7 @@ create table ASIGNAR_ROL (
    constraint PK_ASIGNAR_ROL primary key (COD_ROL, COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
 );
 
-CREATE SEQUENCE SQC_ROL
+CREATE SEQUENCE SQC_ASIGNAR_ROL
 START WITH 1
 MINVALUE 1
 NOMAXVALUE
@@ -116,7 +116,7 @@ CACHE 20;
 /* Table: DETALLE_FACTURA                                       */
 /*==============================================================*/
 create table DETALLE_FACTURA (
-   NO_FACTURA           NUMBER(99)            not null,
+   NO_FACTURA           NUMBER(10)            not null,
    SERIE                varchar2(50)          not null,
    COD_LUBRICANTE       NUMBER(3),
    COD_UNIDAD_MEDIDA    NUMBER(3),
@@ -178,7 +178,7 @@ CACHE 20;
 /* Table: FACTURA                                               */
 /*==============================================================*/
 create table FACTURA (
-   NO_FACTURA           NUMBER(99)            not null,
+   NO_FACTURA           NUMBER(10)            not null,
    SERIE                varchar2(50)          not null,
    COD_CLIENTE          NUMBER(15)            not null,
    COD_DEPARTAMENTO     NUMBER(3)             not null,
@@ -365,7 +365,7 @@ alter table ASIGNAR_ROL
       references ROL (COD_ROL);
 
 alter table ASIGNAR_TURNO
-   add constraint FK_ASIGNAR_EMPLEADO foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
+   add constraint FK_ASIGNAR_EMPLEADO_TURNO foreign key (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO)
       references EMPLEADO (COD_DEPARTAMENTO, COD_MUNICIPIO, COD_SUCURSAL, COD_EMPLEADO);
 
 alter table ASIGNAR_TURNO
@@ -417,7 +417,7 @@ alter table INVENTARIO
       references UNIDAD_MEDIDA (COD_UNIDAD_MEDIDA);
 
 alter table INVENTARIO
-   add constraint FK_INVENTAR_CATEGORI foreign key (COD_LUBRICANTE)
+   add constraint FK_INVENTAR_CATEGORIA foreign key (COD_LUBRICANTE)
       references CATEGORIA_LUBRICANTE (COD_LUBRICANTE);
 
 alter table INVENTARIO
