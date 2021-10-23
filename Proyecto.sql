@@ -23,49 +23,9 @@ Cache 20;
 create table ASIGNAR_ROL (
    COD_ROL              NUMBER(3)             not null,
    COD_EMPLEADO         NUMBER(10)            not null,
-   constraint PK_ASIGNAR_ROL primary key (COD_ROL, COD_EMPLEADO)
+   COD_SUCURSAL         NUMBER(3)             not null,
+   constraint PK_ASIGNAR_ROL primary key (COD_EMPLEADO, COD_ROL)
 );
-
-/*==============================================================*/
-/* Table: ASIGNAR_TURNO                                         */
-/*==============================================================*/
-create table ASIGNAR_TURNO (
-   COD_TURNO            NUMBER(1)             not null,
-   COD_EMPLEADO         NUMBER(10)            not null,
-   constraint PK_ASIGNAR_TURNO primary key (COD_TURNO, COD_EMPLEADO)
-);
-
-/*==============================================================*/
-/* Table: CATEGORIA_COMBUSTIBLE                                 */
-/*==============================================================*/
-create table CATEGORIA_COMBUSTIBLE (
-   COD_COMBUSTIBLE      NUMBER(3)             not null,
-   COMBUSTIBLE          VARCHAR2(200)         not null,
-   constraint PK_CATEGORIA_COMBUSTIBLE primary key (COD_COMBUSTIBLE)
-);
-
-Create Sequence SQC_CATEGORIA_COMBUSTIBLE
-Start With 1
-Minvalue 1
-Nomaxvalue
-Increment By 1
-Cache 20;
-
-/*==============================================================*/
-/* Table: CATEGORIA_LUBRICANTE                                  */
-/*==============================================================*/
-create table CATEGORIA_LUBRICANTE (
-   COD_LUBRICANTE       NUMBER(3)             not null,
-   LUBRICANTE           varchar2(200)         not null,
-   constraint PK_CATEGORIA_LUBRICANTE primary key (COD_LUBRICANTE)
-);
-
-Create Sequence SQC_CATEGORIA_LUBRICANTE
-Start With 1
-Minvalue 1
-Nomaxvalue
-Increment By 1
-Cache 20;
 
 /*==============================================================*/
 /* Table: CLIENTE                                               */
@@ -88,7 +48,7 @@ Cache 20;
 /*==============================================================*/
 create table DEPARTAMENTO (
    COD_DEPARTAMENTO     NUMBER(3)             not null,
-   DEPARTAMENTO         varchar2(100)         not null,
+   DEPARTAMENTO         varchar2(100          not null,
    constraint PK_DEPARTAMENTO primary key (COD_DEPARTAMENTO)
 );
 
@@ -105,10 +65,14 @@ Cache 20;
 create table DETALLE_FACTURA (
    COD_DETALLE          NUMBER(15)            not null,
    NO_FACTURA           NUMBER(15)            not null,
+   COD_SUCURSAL         NUMBER(3)             not null,
    COD_INVENTARIO       NUMBER(15)            not null,
+   COD_EMPLEADO         NUMBER(10)            not null,
+   COD_PRODUCTO         NUMBER(15)            not null,
+   INV_COD_SUCURSAL     NUMBER(3)             not null,
    CANTIDAD             NUMBER(10)            not null,
    PRECIO               NUMBER(10,2)          not null,
-   constraint PK_DETALLE_FACTURA primary key (COD_DETALLE)
+   constraint PK_DETALLE_FACTURA primary key (COD_DETALLE, NO_FACTURA, COD_SUCURSAL)
 );
 
 Create Sequence SQC_DETALLE_FACTURA
@@ -122,9 +86,18 @@ Cache 20;
 /* Table: DIRECCION                                             */
 /*==============================================================*/
 create table DIRECCION (
+   COD_DIRECCION        NUMBER(15)            not null,
    COD_PERSONA          NUMBER(15)            not null,
-   DIRECCION            varchar2(500)         not null
+   DIRECCION            varchar2(500)         not null,
+   constraint PK_DIRECCION primary key (COD_PERSONA, COD_DIRECCION)
 );
+
+Create Sequence SQC_DIRECCION
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
 
 /*==============================================================*/
 /* Table: EMPLEADO                                              */
@@ -132,10 +105,9 @@ create table DIRECCION (
 create table EMPLEADO (
    COD_EMPLEADO         NUMBER(10)            not null,
    COD_PERSONA          NUMBER(15)            not null,
-   COD_SUCURSAL         NUMBER(3)             not null,
    FECHA_INGRESO        DATE                  not null,
    COD_EMP_EMPLEADO     NUMBER(10),
-   constraint PK_EMPLEADO primary key (COD_EMPLEADO) Enable
+   constraint PK_EMPLEADO primary key (COD_EMPLEADO) Enbale
 );
 
 Create Sequence SQC_EMPLEADO
@@ -144,6 +116,16 @@ Minvalue 1
 Nomaxvalue
 Increment By 1
 Cache 20;
+
+
+/*==============================================================*/
+/* Table: EMPLEADO_SUCURSAL                                     */
+/*==============================================================*/
+create table EMPLEADO_SUCURSAL (
+   COD_EMPLEADO         NUMBER(10)            not null,
+   COD_SUCURSAL         NUMBER(3)             not null,
+   constraint PK_EMPLEADO_SUCURSAL primary key (COD_EMPLEADO, COD_SUCURSAL)
+);
 
 /*==============================================================*/
 /* Table: ESTADO                                                */
@@ -166,11 +148,13 @@ Cache 20;
 /*==============================================================*/
 create table FACTURA (
    NO_FACTURA           NUMBER(15)            not null,
+   COD_SUCURSAL         NUMBER(3)             not null,
    SERIE                varchar2(50)          not null,
+   FECHA_EMISION        DATE                  not null,
    COD_CLIENTE          NUMBER(15)            not null,
    COD_EMPLEADO         NUMBER(10)            not null,
-   FECHA_EMISION        DATE                  not null,
-   constraint PK_FACTURA primary key (NO_FACTURA)
+   COD_ESTADO           NUMBER(1)             not null,
+   constraint PK_FACTURA primary key (COD_EMPLEADO, COD_SUCURSAL, NO_FACTURA)
 );
 
 Create Sequence SQC_FACTURA
@@ -201,15 +185,66 @@ Cache 20;
 /*==============================================================*/
 create table INVENTARIO (
    COD_INVENTARIO       NUMBER(15)            not null,
-   COD_LUBRICANTE       NUMBER(3),
-   COD_UNIDAD_MEDIDA    NUMBER(3)             not null,
-   COD_COMBUSTIBLE      NUMBER(3),
+   COD_PRODUCTO         NUMBER(15)            not null,
    COD_SUCURSAL         NUMBER(3)             not null,
-   COD_ESTADO           NUMBER(1)             not null,
    CANTIDAD             NUMBER(5,2)           not null,
    PRECIO               NUMBER(6,2)           not null,
-   constraint PK_INVENTARIO primary key (COD_INVENTARIO)
+   COD_ESTADO           NUMBER(1)             not null,
+   constraint PK_INVENTARIO primary key (COD_INVENTARIO, COD_PRODUCTO, COD_SUCURSAL)
 );
+
+Create Sequence SQC_INVENTARIO
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
+
+/*==============================================================*/
+/* Table: MENU                                                  */
+/*==============================================================*/
+create table MENU (
+   COD_MENU             NUMBER(2)             not null,
+   MENU                 varchar2(100)         not null,
+   constraint PK_MENU primary key (COD_MENU)
+);
+
+Create Sequence SQC_
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
+
+/*==============================================================*/
+/* Table: MENU_ROL                                              */
+/*==============================================================*/
+create table MENU_ROL (
+   COD_MENU             NUMBER(2)             not null,
+   COD_ROL              NUMBER(3)             not null,
+   constraint PK_MENU_ROL primary key (COD_ROL, COD_MENU)
+);
+
+
+/*==============================================================*/
+/* Table: MOVIMIENTO_INVENTARIO                                 */
+/*==============================================================*/
+create table MOVIMIENTO_INVENTARIO (
+   ID_MOVIMIENTO        NUMBER(15)            not null,
+   FECHA                DATE                  not null,
+   COD_MOVIMIENTO       NUMBER(2)             not null,
+   COD_PRODUCTO         NUMBER(15)            not null,
+   CANTIDAD             NUMBER(15)            not null,
+   PRECIO               NUMBER(6,2)           not null,
+   constraint PK_MOVIMIENTO_INVENTARIO primary key (COD_MOVIMIENTO, COD_PRODUCTO, ID_MOVIMIENTO)
+);
+
+Create Sequence SQC_MOVIMIENTO_INVENTARIO
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
 
 /*==============================================================*/
 /* Table: MUNICIPIO                                             */
@@ -217,8 +252,8 @@ create table INVENTARIO (
 create table MUNICIPIO (
    COD_MUNICIPIO        NUMBER(3)             not null,
    COD_DEPARTAMENTO     NUMBER(3)             not null,
-   MUNICIPIO            varchar2(100)         not null,
-   constraint PK_MUNICIPIO primary key (COD_MUNICIPIO, COD_DEPARTAMENTO)
+   DEPARTAMENTO         varchar2(100)         not null,
+   constraint PK_MUNICIPIO primary key (COD_MUNICIPIO)
 );
 
 Create Sequence SQC_MUNICIPIO
@@ -246,6 +281,24 @@ create table PERSONA (
 );
 
 Create Sequence SQC_PERSONA
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
+
+/*==============================================================*/
+/* Table: PRODUCTO                                              */
+/*==============================================================*/
+create table PRODUCTO (
+   COD_PRODUCTO         NUMBER(15)            not null,
+   PRODUCTO             varchar2(300)         not null,
+   COD_UNIDAD_MEDIDA    NUMBER(3)             not null,
+   COD_ESTADO           NUMBER(1)             not null,
+   constraint PK_PRODUCTO primary key (COD_PRODUCTO)
+);
+
+Create Sequence SQC_PRODUCTO
 Start With 1
 Minvalue 1
 Nomaxvalue
@@ -289,9 +342,8 @@ Cache 20;
 /*==============================================================*/
 create table SUCURSAL (
    COD_SUCURSAL         NUMBER(3)             not null,
-   COD_DEPARTAMENTO     NUMBER(3)             not null,
    COD_MUNICIPIO        NUMBER(3)             not null,
-   NOMBRE_SUCURSAL      VARCHAR2(200)         not null,
+   NOMBRE_SUCURSAL      varchar2(200)         not null,
    constraint PK_SUCURSAL primary key (COD_SUCURSAL)
 );
 
@@ -306,9 +358,18 @@ Cache 20;
 /* Table: TELEFONO                                              */
 /*==============================================================*/
 create table TELEFONO (
+   COD_TELEFONO         NUMBER(15)            not null,
    COD_PERSONA          NUMBER(15)            not null,
-   TELEFONO             varchar2(15)          not null
+   TELEFONO             varchar2(15)          not null,
+   constraint PK_TELEFONO primary key (COD_PERSONA, COD_TELEFONO)
 );
+
+Create Sequence SQC_TELEFONO
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
 
 /*==============================================================*/
 /* Table: TIPO_IDENTIFICACION                                   */
@@ -318,6 +379,30 @@ create table TIPO_IDENTIFICACION (
    TIPO_IDENTIFICACION  varchar2(100)         not null,
    constraint PK_TIPO_IDENTIFICACION primary key (COD_IDENTIFICACION)
 );
+
+Create Sequence SQC_TIPO_IDENTIFICACION
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
+
+/*==============================================================*/
+/* Table: TIPO_MOVIMIENTO                                       */
+/*==============================================================*/
+
+create table TIPO_MOVIMIENTO (
+   COD_MOVIMIENTO       NUMBER(2)             not null,
+   TIPO_MOVIMIENTO      varchar2(100)         not null,
+   constraint PK_TIPO_MOVIMIENTO primary key (COD_MOVIMIENTO)
+);
+
+Create Sequence SQC_TIPO_MOVIMIENTO
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
 
 /*==============================================================*/
 /* Table: TURNO                                                 */
@@ -334,6 +419,16 @@ Minvalue 1
 Nomaxvalue
 Increment By 1
 Cache 20;
+
+/*==============================================================*/
+/* Table: TURNO_EMPLEADO                                        */
+/*==============================================================*/
+create table TURNO_EMPLEADO (
+   COD_TURNO            NUMBER(1)             not null,
+   COD_EMPLEADO         NUMBER(10)            not null,
+   COD_SUCURSAL         NUMBER(3)             not null,
+   constraint PK_TURNO_EMPLEADO primary key (COD_EMPLEADO, COD_SUCURSAL, COD_TURNO)
+);
 
 /*==============================================================*/
 /* Table: UNIDAD_MEDIDA                                         */
@@ -360,72 +455,80 @@ alter table EMPLEADO
       references EMPLEADO (COD_EMPLEADO) Enable; 
 
 alter table ASIGNAR_ROL
-   add constraint FK_ASIGNAR_ROL_EMPLEADO foreign key (COD_EMPLEADO)
-      references EMPLEADO (COD_EMPLEADO);
-
-alter table ASIGNAR_ROL
    add constraint FK_ASIGNAR_ROL foreign key (COD_ROL)
       references ROL (COD_ROL);
 
-alter table ASIGNAR_TURNO
-   add constraint FK_ASIGNAR_TURNO_EMPLEADO foreign key (COD_EMPLEADO)
-      references EMPLEADO (COD_EMPLEADO);
-
-alter table ASIGNAR_TURNO
-   add constraint FK_ASIGNAR_TURNO foreign key (COD_TURNO)
-      references TURNO (COD_TURNO);
+alter table ASIGNAR_ROL
+   add constraint FK_ASIGNAR_EMPLEADO foreign key (COD_EMPLEADO, COD_SUCURSAL)
+      references EMPLEADO_SUCURSAL (COD_EMPLEADO, COD_SUCURSAL);
 
 alter table CLIENTE
    add constraint FK_CLIENTE_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
 
 alter table DETALLE_FACTURA
-   add constraint FK_DETALLE_FACTURA foreign key (NO_FACTURA)
-      references FACTURA (NO_FACTURA);
+   add constraint FK_DETALLE_INVENTAR foreign key (COD_INVENTARIO, COD_PRODUCTO, INV_COD_SUCURSAL)
+      references INVENTARIO (COD_INVENTARIO, COD_PRODUCTO, COD_SUCURSAL);
 
 alter table DETALLE_FACTURA
-   add constraint FK_DETALLE_INVENTARIO foreign key (COD_INVENTARIO)
-      references INVENTARIO (COD_INVENTARIO);
+   add constraint FK_DETALLE_FACTURA foreign key (COD_EMPLEADO, COD_SUCURSAL, NO_FACTURA)
+      references FACTURA (COD_EMPLEADO, COD_SUCURSAL, NO_FACTURA);
 
 alter table DIRECCION
-   add constraint FK_DIRECCION_PERSONA foreign key (COD_PERSONA)
+   add constraint FK_DIRECCIO_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
-
-alter table EMPLEADO
-   add constraint FK_EMPLEADO_SUCURSAL foreign key (COD_SUCURSAL)
-      references SUCURSAL (COD_SUCURSAL);
 
 alter table EMPLEADO
    add constraint FK_EMPLEADO_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
+
+alter table EMPLEADO_SUCURSAL
+   add constraint FK_EMPLEADO_SUCURSAL foreign key (COD_SUCURSAL)
+      references SUCURSAL (COD_SUCURSAL);
+
+alter table EMPLEADO_SUCURSAL
+   add constraint FK_EMPLEADO_EMPLEADO foreign key (COD_EMPLEADO)
+      references EMPLEADO (COD_EMPLEADO);
 
 alter table FACTURA
    add constraint FK_FACTURA_CLIENTE foreign key (COD_CLIENTE)
       references CLIENTE (COD_CLIENTE);
 
 alter table FACTURA
-   add constraint FK_FACTURA_EMPLEADO foreign key (COD_EMPLEADO)
-      references EMPLEADO (COD_EMPLEADO);
-
-alter table INVENTARIO
-   add constraint FK_INVENTARIO_ESTADO foreign key (COD_ESTADO)
+   add constraint FK_FACTURA_ESTADO foreign key (COD_ESTADO)
       references ESTADO (COD_ESTADO);
 
-alter table INVENTARIO
-   add constraint FK_INVENTARIO_CATEGORIA_COMBUSTIBLE foreign key (COD_COMBUSTIBLE)
-      references CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE);
+alter table FACTURA
+   add constraint FK_FACTURA_EMPLEADO foreign key (COD_EMPLEADO, COD_SUCURSAL)
+      references EMPLEADO_SUCURSAL (COD_EMPLEADO, COD_SUCURSAL);
 
 alter table INVENTARIO
-   add constraint FK_INVENTARIO_UNIDAD_MEDIDA foreign key (COD_UNIDAD_MEDIDA)
-      references UNIDAD_MEDIDA (COD_UNIDAD_MEDIDA);
+   add constraint FK_INVENTAR_PRODUCTO foreign key (COD_PRODUCTO)
+      references PRODUCTO (COD_PRODUCTO);
 
 alter table INVENTARIO
-   add constraint FK_INVENTARIO_CATEGORIA_LUBRICANTE foreign key (COD_LUBRICANTE)
-      references CATEGORIA_LUBRICANTE (COD_LUBRICANTE);
-
-alter table INVENTARIO
-   add constraint FK_INVENTARIO_SUCURSAL foreign key (COD_SUCURSAL)
+   add constraint FK_INVENTAR_SUCURSAL foreign key (COD_SUCURSAL)
       references SUCURSAL (COD_SUCURSAL);
+
+alter table INVENTARIO
+   add constraint FK_INVENTAR_ESTADO foreign key (COD_ESTADO)
+      references ESTADO (COD_ESTADO);
+
+alter table MENU_ROL
+   add constraint FK_MENU_ROL_MENU foreign key (COD_MENU)
+      references MENU (COD_MENU);
+
+alter table MENU_ROL
+   add constraint FK_MENU_ROL_ROL foreign key (COD_ROL)
+      references ROL (COD_ROL);
+
+alter table MOVIMIENTO_INVENTARIO
+   add constraint FK_MOVIMIENTO_PRODUCTO foreign key (COD_PRODUCTO)
+      references PRODUCTO (COD_PRODUCTO);
+
+alter table MOVIMIENTO_INVENTARIO
+   add constraint FK_MOVIMIENTO_TIPO_MOVIMIENTO foreign key (COD_MOVIMIENTO)
+      references TIPO_MOVIMIENTO (COD_MOVIMIENTO);
 
 alter table MUNICIPIO
    add constraint FK_MUNICIPIO_DEPARTAMENTO foreign key (COD_DEPARTAMENTO)
@@ -443,14 +546,30 @@ alter table PERSONA
    add constraint FK_PERSONA_GENERO foreign key (COD_GENERO)
       references GENERO (COD_GENERO);
 
+alter table PRODUCTO
+   add constraint FK_PRODUCTO_UNIDAD_MEDIDA foreign key (COD_UNIDAD_MEDIDA)
+      references UNIDAD_MEDIDA (COD_UNIDAD_MEDIDA);
+
+alter table PRODUCTO
+   add constraint FK_PRODUCTO_ESTADO foreign key (COD_ESTADO)
+      references ESTADO (COD_ESTADO);
+
 alter table SUCURSAL
-   add constraint FK_SUCURSAL_MUNICIPIO foreign key (COD_MUNICIPIO, COD_DEPARTAMENTO)
-      references MUNICIPIO (COD_MUNICIPIO, COD_DEPARTAMENTO);
+   add constraint FK_SUCURSAL_MUNICIPIO foreign key (COD_MUNICIPIO)
+      references MUNICIPIO (COD_MUNICIPIO);
 
 alter table TELEFONO
    add constraint FK_TELEFONO_PERSONA foreign key (COD_PERSONA)
       references PERSONA (COD_PERSONA);
-   
+
+alter table TURNO_EMPLEADO
+   add constraint FK_TURNO_EMPLEADO foreign key (COD_EMPLEADO, COD_SUCURSAL)
+      references EMPLEADO_SUCURSAL (COD_EMPLEADO, COD_SUCURSAL);
+
+alter table TURNO_EMPLEADO
+   add constraint FK_TURNO_TURNO foreign key (COD_TURNO)
+      references TURNO (COD_TURNO);
+
 
 /*==============================================================*/
 /* Insercion de datos manual                                    */
@@ -479,15 +598,6 @@ insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMEN
 insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Suchitepéquez');
 insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Totonicapán');
 insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMENTO.Nextval, 'Zacapa');
-
-
-insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'Super');
-insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'Regular');
-insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'Diesel');
-insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'V-Power');
-insert into CATEGORIA_COMBUSTIBLE (COD_COMBUSTIBLE, COMBUSTIBLE) values (SQC_CATEGORIA_COMBUSTIBLE.Nextval, 'GLP');
-
---insert into CATEGORIA_LUBRICANTE (COD_LUBRICANTE, LUBRICANTE) values (SQC_CATEGORIA_LUBRICANTE.Nextval, '');
 
 
 insert into ANUNCIO (COD_ANUNCIO, ANUNCIO, FECHA_INICIO, FECHA_FIN) values (SQC_ANUNCIO.Nextval, 'Primer anuncio de proyecto', Sysdate, to_date ('01-01-2021','dd-mm-yy'));
