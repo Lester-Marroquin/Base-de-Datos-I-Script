@@ -48,7 +48,7 @@ Cache 20;
 /*==============================================================*/
 create table DEPARTAMENTO (
    COD_DEPARTAMENTO     NUMBER(3)             not null,
-   DEPARTAMENTO         varchar2(100          not null,
+   DEPARTAMENTO         varchar2(100)         not null,
    constraint PK_DEPARTAMENTO primary key (COD_DEPARTAMENTO)
 );
 
@@ -107,7 +107,7 @@ create table EMPLEADO (
    COD_PERSONA          NUMBER(15)            not null,
    FECHA_INGRESO        DATE                  not null,
    COD_EMP_EMPLEADO     NUMBER(10),
-   constraint PK_EMPLEADO primary key (COD_EMPLEADO) Enbale
+   constraint PK_EMPLEADO primary key (COD_EMPLEADO) Enable
 );
 
 Create Sequence SQC_EMPLEADO
@@ -116,7 +116,6 @@ Minvalue 1
 Nomaxvalue
 Increment By 1
 Cache 20;
-
 
 /*==============================================================*/
 /* Table: EMPLEADO_SUCURSAL                                     */
@@ -487,7 +486,7 @@ alter table EMPLEADO_SUCURSAL
       references SUCURSAL (COD_SUCURSAL);
 
 alter table EMPLEADO_SUCURSAL
-   add constraint FK_EMPLEADO_EMPLEADO foreign key (COD_EMPLEADO)
+   add constraint FK_EMPLEADO_SUCURSAL_EMPLEADO foreign key (COD_EMPLEADO)
       references EMPLEADO (COD_EMPLEADO);
 
 alter table FACTURA
@@ -601,3 +600,4 @@ insert into DEPARTAMENTO (COD_DEPARTAMENTO, DEPARTAMENTO) values (SQC_DEPARTAMEN
 
 
 insert into ANUNCIO (COD_ANUNCIO, ANUNCIO, FECHA_INICIO, FECHA_FIN) values (SQC_ANUNCIO.Nextval, 'Primer anuncio de proyecto', Sysdate, to_date ('01-01-2021','dd-mm-yy'));
+
