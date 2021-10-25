@@ -267,6 +267,7 @@ Cache 20;
 /*==============================================================*/
 create table PERSONA (
    COD_PERSONA          NUMBER(15)            not null,
+   NO_IDENTIFICACION    varchar2(15)          not null,
    COD_IDENTIFICACION   NUMBER(3)             not null,
    COD_SEXO             NUMBER(3)             not null,
    COD_GENERO           NUMBER(1)             not null,
@@ -833,5 +834,10 @@ insert into PERSONA (COD_PERSONA, NO_IDENTIFICACION, COD_IDENTIFICACION, COD_SEX
 values (SQC_PERSONA.Nextval, '1872408042003', 1, 2, 2, 'JOSSELINE', 'FABIOLA', 'CHAMALE', 'LOPEZ', NULL, '09-10-2003');
 insert into PERSONA (COD_PERSONA, NO_IDENTIFICACION, COD_IDENTIFICACION, COD_SEXO, COD_GENERO, NOMBRE_1, NOMBRE_2, APELLIDO_2, APELLIDO_CASADA, FECHA_NACIMIENTO) 
 values (SQC_PERSONA.Nextval, '2573425351420', 2, 1, 1, 'ANGEL', 'GABRIEL', 'PEREZ', 'CARRILLO', NULL, '03-31-1978');
+
+
+
+insert into TIPO_MOVIMIENTO (COD_MOVIMIENTO, TIPO_MOVIMIENTO) values (SQC_TIPO_MOVIMIENTO.Nextval, 'COMPRA');
+insert into TIPO_MOVIMIENTO (COD_MOVIMIENTO, TIPO_MOVIMIENTO) values (SQC_TIPO_MOVIMIENTO.Nextval, 'VENTA');
 
 
