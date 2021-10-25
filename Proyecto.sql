@@ -130,7 +130,7 @@ create table EMPLEADO_SUCURSAL (
 /* Table: ESTADO                                                */
 /*==============================================================*/
 create table ESTADO (
-   COD_ESTADO           NUMBER(1)             not null,
+   COD_ESTADO           NUMBER(10)             not null,
    ESTADO               Varchar2(50)          not null,
    constraint PK_ESTADO primary key (COD_ESTADO)
 );
