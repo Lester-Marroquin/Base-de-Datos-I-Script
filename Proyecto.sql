@@ -251,7 +251,7 @@ Cache 20;
 create table MUNICIPIO (
    COD_MUNICIPIO        NUMBER(3)             not null,
    COD_DEPARTAMENTO     NUMBER(3)             not null,
-   DEPARTAMENTO         varchar2(100)         not null,
+   MUNICIPIO            varchar2(100)         not null,
    constraint PK_MUNICIPIO primary key (COD_MUNICIPIO)
 );
 
