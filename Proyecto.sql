@@ -446,6 +446,7 @@ Nomaxvalue
 Increment By 1
 Cache 20;
 
+
 /*==============================================================*/
 /* ALTERS:                                                      */
 /*==============================================================*/
@@ -844,8 +845,7 @@ insert into PERSONA (COD_PERSONA, NO_IDENTIFICACION, COD_IDENTIFICACION, COD_SEX
 values (SQC_PERSONA.Nextval, '2573485691420', 1, 1,3, 'LUIS', 'MIGUEL', 'SANCHEZ', 'VEGA', NULL, '17-04-1993');
 
 
-
 insert into TIPO_MOVIMIENTO (COD_MOVIMIENTO, TIPO_MOVIMIENTO) values (SQC_TIPO_MOVIMIENTO.Nextval, 'COMPRA');
 insert into TIPO_MOVIMIENTO (COD_MOVIMIENTO, TIPO_MOVIMIENTO) values (SQC_TIPO_MOVIMIENTO.Nextval, 'VENTA');
 
-
+---prueba---
