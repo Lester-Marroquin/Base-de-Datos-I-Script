@@ -446,6 +446,31 @@ Nomaxvalue
 Increment By 1
 Cache 20;
 
+/*==============================================================*/
+/* Table: BITACORA                                       */
+/*==============================================================*/
+
+CREATE TABLE BITACORA (
+CORRELATIVO		NUMBER(15),
+NOMBRE_TABLA 	VARCHAR2(30),
+USUARIO   		VARCHAR2(30),
+FECHA			DATE,
+VALOR_ANTIGUO	VARCHAR2(4000),
+VALOR_NUEVO	    VARCHAR2(4000),
+ATRIBUTO	    VARCHAR2(30),
+ATRIBUTO_ORACLE	VARCHAR2(200),
+IP 	        VARCHAR2(200),
+CONSTRAINT PK_BITACORA PRIMARY KEY (CORRELATIVO)
+);
+
+Create Sequence SQC_BITACORA
+Start With 1
+Minvalue 1
+Nomaxvalue
+Increment By 1
+Cache 20;
+
+
 
 /*==============================================================*/
 /* ALTERS:                                                      */
@@ -848,4 +873,27 @@ values (SQC_PERSONA.Nextval, '2573485691420', 1, 1,3, 'LUIS', 'MIGUEL', 'SANCHEZ
 insert into TIPO_MOVIMIENTO (COD_MOVIMIENTO, TIPO_MOVIMIENTO) values (SQC_TIPO_MOVIMIENTO.Nextval, 'COMPRA');
 insert into TIPO_MOVIMIENTO (COD_MOVIMIENTO, TIPO_MOVIMIENTO) values (SQC_TIPO_MOVIMIENTO.Nextval, 'VENTA');
 
----prueba---
+/*==============================================================*/
+/* PROCEDIMIENTO BITACORAd                                 */
+/*==============================================================*/
+
+CREATE OR REPLACE PROCEDURE PRC_BITACORA(NTABLA VARCHAR2, NVALORANT VARCHAR2,
+                                              NVALORNUEV VARCHAR2, SCAMPO VARCHAR2, NLLAVE NUMBER) IS
+PRAGMA AUTONOMOUS_TRANSACTION;
+CIP VARCHAR2(30):= '127.0.0.1';
+
+BEGIN
+SELECT SYS_CONTEXT('USERENV','IP_ADDRESS') INTO CIP FROM dual;
+  insert into bitacora (CORRELATIVO, NOMBRE_TABLA, USUARIO, FECHA, VALOR_ANTIGUO, VALOR_NUEVO, ATRIBUTO, ATRIBUTO_ORACLE, IP) 
+  values (SQC_BITACORA.NEXTVAL, NTABLA, USER, SYSDATE, NVALORANT, NVALORNUEV, SCAMPO, NLLAVE, CIP);
+    COMMIT;
+EXCEPTION
+  WHEN OTHERS THEN
+    RAISE_APPLICATION_ERROR(-20001,'Error Insertando Bitacora'||sqlerrm);
+end;
+
+CREATE PUBLIC SYNONYM PRC_BITACORA FOR PRC_BITACORA;
+
+
+
+
