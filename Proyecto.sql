@@ -167,7 +167,7 @@ Cache 20;
 /* Table: GENERO                                                */
 /*==============================================================*/
 create table GENERO (
-   COD_GENERO           NUMBER(1)             not null,
+   COD_GENERO           NUMBER(3)             not null,
    GENERO               varchar2(15)          not null,
    constraint PK_GENERO primary key (COD_GENERO)
 );
